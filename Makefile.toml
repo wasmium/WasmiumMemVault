@@ -1,0 +1,62 @@
+[tasks.default]
+clear = true
+dependencies = ["build"]
+
+[tasks.dev]
+script = '''
+echo -------- DEV_ACTIONS::\<cargo build\> ---------
+cargo build
+'''
+dependencies = ["fmt"]
+watch = {}
+
+[tasks.stage]
+script = '''
+echo -------- STAGING_ACTIONS::\<cargo build --release\> ---------
+cargo build --release
+'''
+dependencies = ["check_licenses", "fmt", "tests", "doc_tests"]
+
+[tasks.production]
+script = '''
+echo -------- PRODUCTION_ACTIONS::\<cargo build --release\> ---------
+cargo build --release
+'''
+dependencies = [
+    "check_licenses",
+    "fmt",
+    "tests",
+    "doc_tests",
+    "publish_crates_io",
+]
+
+
+[tasks.check_licenses]
+script = '''
+echo -------- LICENCE_COMPATIBILITY_CHECKS::\<cargo deny check\> ---------
+cargo deny check
+'''
+
+[tasks.tests]
+script = '''
+echo -------- WORKSPACE_TESTS::\<cargo test --workspace\> ---------
+cargo test --workspace
+'''
+
+[tasks.doc_tests]
+script = '''
+echo -------- WORKSPACE_DOC_TESTS::\<cargo test --doc\> ---------
+cargo test --doc
+'''
+
+[tasks.fmt]
+script = '''
+echo -------- RUN_FORMATTER::\<cargo fmt check\> ---------
+cargo fmt
+'''
+
+[tasks.publish_crates_io]
+script = '''
+echo -------- crates.io_PUBLISH_DRY_RUN::\<cargo publish --dry-run\> ---------
+cargo publish --dry-run
+'''
