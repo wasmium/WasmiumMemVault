@@ -1,9 +1,10 @@
 [package]
 name = "wasmium-securemem"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Wasmium Network Developers <hq@wasmium.network"]
 license = "CC0-1.0 OR Apache-2.0"
+description = "Secures Ed25519 signing keys in memory"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -20,7 +21,7 @@ nanorand = { version = "0.6.1", features = [
 secrecy = "0.8.0"
 wasmium-random = "1.0.0"
 zeroize = { version = "1.4.3", default-features = false }
-wasmium_errors = { path = "../WasmiumErrors" }
+wasmium_errors = "1.0.1"
 ed25519-dalek = { version = "1.0.1", features = [
     "std",
     "u64_backend",
