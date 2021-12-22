@@ -7,10 +7,31 @@ license = "CC0-1.0 OR Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-blake3 = { version = "1.2.0", default-features = false }
+blake3 = "1.2.0"
+chacha20poly1305 = { version = "0.9.0", features = [
+    "reduced-round",
+    "heapless",
+    "alloc",
+], default-features = false }
 lazy_static = "1.4.0"
 nanorand = { version = "0.6.1", features = [
     "chacha",
 ], default-features = false }
 secrecy = "0.8.0"
+wasmium-random = "1.0.0"
 zeroize = { version = "1.4.3", default-features = false }
+wasmium_errors = { path = "../WasmiumErrors" }
+ed25519-dalek = { version = "1.0.1", features = [
+    "std",
+    "u64_backend",
+], default-features = false }
+
+[features]
+dangerous_debug = []
+
+[dev-dependencies]
+rand = "0.7"
+ed25519-dalek = { version = "1.0.1", features = [
+    "std",
+    "u64_backend",
+], default-features = false }
