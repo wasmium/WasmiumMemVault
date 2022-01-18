@@ -39,3 +39,9 @@ impl DebugSecret for ProtectedEd25519KeyPair {
         f.debug_struct("ProtectedEd25519KeyPair(Keypair)").finish()
     }
 }
+
+impl core::fmt::Debug for ProtectedEd25519KeyPair {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.debug_struct("ProtectedEd25519KeyPair(Keypair)").finish()
+    }
+}
