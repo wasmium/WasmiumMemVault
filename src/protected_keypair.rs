@@ -23,6 +23,10 @@ impl ProtectedEd25519KeyPair {
             Err(_) => Err(WasmiumError::SigningError),
         }
     }
+
+    pub fn public_key(&self) -> [u8; 32] {
+        self.0.public.to_bytes()
+    }
 }
 
 impl Zeroize for ProtectedEd25519KeyPair {
