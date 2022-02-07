@@ -27,6 +27,11 @@ impl ProtectedEd25519KeyPair {
     pub fn public_key(&self) -> [u8; 32] {
         self.0.public.to_bytes()
     }
+
+    #[cfg(feature = "satoshi_mode")]
+    pub fn base58_public_key(&self) -> String {
+        bs58::encode(&self.0.public.to_bytes()).into_string()
+    }
 }
 
 impl Zeroize for ProtectedEd25519KeyPair {
