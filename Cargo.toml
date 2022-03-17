@@ -1,6 +1,6 @@
 [package]
 name = "wasmium-securemem"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Wasmium Network Developers <hq@wasmium.network"]
 license = "CC0-1.0 OR Apache-2.0"
@@ -21,7 +21,7 @@ nanorand = { version = "0.7.0", features = [
 secrecy = "0.8.0"
 wasmium-random = "1.0.0"
 zeroize = { version = "1.4", default-features = false }
-wasmium_errors = "1.0.2"
+wasmium_errors = "1.0.3"
 ed25519-dalek = { version = "1.0.1", features = [
     "std",
     "u64_backend",

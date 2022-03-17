@@ -24,6 +24,18 @@ impl ProtectedEd25519KeyPair {
         }
     }
 
+    pub fn zero_init(public_key_array: [u8; 32]) -> WasmiumResult<Self> {
+        let public = match PublicKey::from_bytes(&public_key_array) {
+            Ok(key) => key,
+            Err(_) => return Err(WasmiumError::InvalidBytesForPublicKey),
+        };
+        let secret = SecretKey::from_bytes(&[0_u8; 32]).unwrap(); // Never fails hence `.unwrap()`
+
+        let keypair = Keypair { secret, public };
+
+        Ok(ProtectedEd25519KeyPair(keypair))
+    }
+
     pub fn public_key(&self) -> [u8; 32] {
         self.0.public.to_bytes()
     }
