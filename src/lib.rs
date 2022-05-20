@@ -34,33 +34,32 @@ mod prekey_vault;
 pub use prekey_vault::*;
 mod vault;
 pub use vault::*;
-mod memvault;
-pub use memvault::*;
+mod random_key;
+pub use random_key::*;
 mod protected_keypair;
 pub use protected_keypair::*;
+mod errors;
+pub use errors::*;
 
 #[cfg(test)]
 mod correctness_tests {
-    use crate::{EncryptedVault, ProtectedEd25519KeyPair};
+    use crate::{Ed25519Vault, EncryptedVault};
+    use ed25519_dalek::{Keypair, Signer};
 
     #[test]
     fn eq_between_original_and_encrypted() {
-        use ed25519_dalek::Keypair;
-        use ed25519_dalek::Signature;
-        use rand::rngs::OsRng;
+        let data = b"1234567890";
 
-        let mut csprng = OsRng {};
-        let keypair: Keypair = Keypair::generate(&mut csprng);
+        let mut ed25519vault = Ed25519Vault::new_unique().unwrap();
 
-        use ed25519_dalek::Signer;
-        let message: &[u8] = b"This is a test of the tsunami alert system.";
-        let signature: Signature = keypair.sign(message);
+        let keypair_bytes = ed25519vault.dangerous_export();
+        let ed_keypair = Keypair::from_bytes(&keypair_bytes).unwrap();
+        let ed_sig = ed_keypair.sign(data);
 
-        let vault =
-            EncryptedVault::encrypt_secret(&mut ProtectedEd25519KeyPair::new(keypair)).unwrap();
+        let vault = EncryptedVault::encrypt_secret(&mut ed25519vault).unwrap();
 
-        let vault_signed = vault.decrypt_and_sign(message).unwrap();
-
-        assert_eq!(signature, vault_signed);
+        let vault_sig = vault.decrypt_and_sign(data).unwrap();
+        assert_eq!(ed_sig, vault_sig);
+        assert_eq!(ed_keypair.public, vault.public_key().unwrap());
     }
 }

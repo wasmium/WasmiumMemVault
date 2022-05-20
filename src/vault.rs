@@ -1,5 +1,6 @@
 use secrecy::Secret;
 
+/// Encrypts and decrypts the `Ed25519::Keypair` .
 pub struct EncryptedVault {
     pub(crate) secret: Secret<Vec<u8>>,
     pub(crate) nonce: Secret<[u8; 24]>,
